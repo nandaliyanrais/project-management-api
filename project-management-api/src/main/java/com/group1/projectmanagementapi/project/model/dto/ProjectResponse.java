@@ -3,8 +3,8 @@ package com.group1.projectmanagementapi.project.model.dto;
 import java.sql.Timestamp;
 import java.util.List;
 
-import com.group1.projectmanagementapi.card.Card;
-import com.group1.projectmanagementapi.customer.Customer;
+import com.group1.projectmanagementapi.card.models.Card;
+import com.group1.projectmanagementapi.customer.models.Customer;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

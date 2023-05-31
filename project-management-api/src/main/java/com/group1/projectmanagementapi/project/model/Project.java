@@ -6,8 +6,8 @@ import java.util.List;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.group1.projectmanagementapi.card.Card;
-import com.group1.projectmanagementapi.customer.Customer;
+import com.group1.projectmanagementapi.card.models.Card;
+import com.group1.projectmanagementapi.customer.models.Customer;
 import com.group1.projectmanagementapi.project.model.dto.ProjectResponse;
 
 import jakarta.persistence.Entity;

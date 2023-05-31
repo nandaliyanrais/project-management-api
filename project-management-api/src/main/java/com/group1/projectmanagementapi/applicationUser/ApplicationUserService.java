@@ -5,7 +5,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.group1.projectmanagementapi.authentication.model.UserPrincipal;
+import com.group1.projectmanagementapi.authentication.models.UserPrincipal;
 
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package com.group1.projectmanagementapi.authentication.model;
+package com.group1.projectmanagementapi.authentication.models;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -41,7 +41,12 @@ public class UserPrincipal implements UserDetails {
     }
 
     public static UserPrincipal build(ApplicationUser applicationUser) {
-        return new UserPrincipal(applicationUser.getId(), applicationUser.getName(), applicationUser.getUsername(), applicationUser.getEmail(), applicationUser.getPassword());
+        return new UserPrincipal(
+                applicationUser.getId(), 
+                applicationUser.getName(), 
+                applicationUser.getUsername(), 
+                applicationUser.getEmail(), 
+                applicationUser.getPassword());
     }
 
     @Override

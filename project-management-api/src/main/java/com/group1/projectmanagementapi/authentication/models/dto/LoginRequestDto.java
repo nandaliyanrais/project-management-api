@@ -1,4 +1,4 @@
-package com.group1.projectmanagementapi.authentication.model.dto;
+package com.group1.projectmanagementapi.authentication.models.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,7 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class LoginRequestDto {
-    private String username;
 
+    private String username;
     private String password;
+    
 }

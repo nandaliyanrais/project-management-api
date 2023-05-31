@@ -3,7 +3,7 @@ package com.group1.projectmanagementapi.project.model.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.group1.projectmanagementapi.customer.Customer;
+import com.group1.projectmanagementapi.customer.models.Customer;
 import com.group1.projectmanagementapi.project.model.Project;
 
 import lombok.AllArgsConstructor;

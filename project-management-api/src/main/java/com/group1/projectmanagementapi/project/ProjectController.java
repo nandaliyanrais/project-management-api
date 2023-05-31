@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.group1.projectmanagementapi.card.Card;
+import com.group1.projectmanagementapi.card.models.Card;
 import com.group1.projectmanagementapi.project.model.Project;
 import com.group1.projectmanagementapi.project.model.dto.ProjectRequest;
 import com.group1.projectmanagementapi.project.model.dto.ProjectResponse;
