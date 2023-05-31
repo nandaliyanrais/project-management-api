@@ -6,6 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.group1.projectmanagementapi.card.models.dto.CardResponse;
+import com.group1.projectmanagementapi.project.model.Project;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -51,9 +52,9 @@ public class Card {
     @UpdateTimestamp
     private Timestamp updatedAt;
 
-    // @ManyToOne
-    // @JoinColumn(name = "project_id")
-    // private Project project;
+    @ManyToOne
+    @JoinColumn(name = "project_id")
+    private Project project;
 
     public CardResponse convertToResponse() {
         return CardResponse.builder()
