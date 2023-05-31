@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.group1.projectmanagementapi.project.Project;
+import com.group1.projectmanagementapi.project.model.Project;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
