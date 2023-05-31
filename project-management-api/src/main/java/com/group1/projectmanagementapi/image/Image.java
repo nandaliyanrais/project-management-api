@@ -1,4 +1,4 @@
-package com.group1.projectmanagementapi.customer.image;
+package com.group1.projectmanagementapi.image;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -1,10 +1,10 @@
-package com.group1.projectmanagementapi.applicationUser;
+package com.group1.projectmanagementapi.applicationuser;
 
 import java.util.UUID;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import com.group1.projectmanagementapi.customer.Customer;
+import com.group1.projectmanagementapi.customer.models.Customer;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

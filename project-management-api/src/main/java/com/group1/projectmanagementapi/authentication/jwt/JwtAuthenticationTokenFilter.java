@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.group1.projectmanagementapi.applicationUser.ApplicationUserService;
+import com.group1.projectmanagementapi.applicationuser.ApplicationUserService;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -33,7 +33,6 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             String username = tokenProvider.getUsernameFromJwtToken(jwt);
 
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails,
                     null, userDetails.getAuthorities());
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
@@ -47,9 +46,10 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     private String getJwt(HttpServletRequest request) {
         String authorizationHeader = request.getHeader("Authorization");
 
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer")) {
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             return authorizationHeader.replace("Bearer ", "");
         }
-        return authorizationHeader;
+
+        return null;
     }
 }
