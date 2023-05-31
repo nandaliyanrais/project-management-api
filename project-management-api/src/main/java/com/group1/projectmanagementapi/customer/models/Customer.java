@@ -8,9 +8,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.group1.projectmanagementapi.applicationuser.ApplicationUser;
-import com.group1.projectmanagementapi.customer.models.dto.response.CustomerRegisterResponse;
 import com.group1.projectmanagementapi.customer.models.dto.response.CustomerResponse;
-import com.group1.projectmanagementapi.image.Image;
+import com.group1.projectmanagementapi.image.models.Image;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -48,9 +47,9 @@ public class Customer {
     @Cascade(CascadeType.ALL)
     private ApplicationUser applicationUser;
 
-    // @OneToOne
-    // @Cascade(CascadeType.ALL)
-    // private Image imageurl;
+    @OneToOne
+    @Cascade(CascadeType.ALL)
+    private Image image;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
@@ -60,11 +59,13 @@ public class Customer {
     private Timestamp updatedAt;
 
     public CustomerResponse convertToResponse() {
+        // String imageUrl = image.getUrl();
         return CustomerResponse.builder()
                 .id(this.id)
                 .name(this.name)
                 .username(this.username)
                 .email(this.email)
+                // .imageUrl(imageUrl)
                 .createdAt(this.createdAt)
                 .build();
     }

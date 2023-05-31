@@ -21,6 +21,7 @@ public class CustomerResponse {
     private String name;
     private String username;
     private String email;
+    private String imageUrl;
     private Timestamp createdAt;
     
 }
