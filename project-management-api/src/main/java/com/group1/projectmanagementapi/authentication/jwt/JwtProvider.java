@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
-import com.group1.projectmanagementapi.authentication.model.UserPrincipal;
+import com.group1.projectmanagementapi.authentication.models.UserPrincipal;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;

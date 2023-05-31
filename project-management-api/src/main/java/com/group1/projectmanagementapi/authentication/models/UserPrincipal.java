@@ -1,4 +1,4 @@
-package com.group1.projectmanagementapi.authentication.model;
+package com.group1.projectmanagementapi.authentication.models;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -8,7 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.group1.projectmanagementapi.applicationUser.ApplicationUser;
+import com.group1.projectmanagementapi.applicationuser.ApplicationUser;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -41,7 +41,12 @@ public class UserPrincipal implements UserDetails {
     }
 
     public static UserPrincipal build(ApplicationUser applicationUser) {
-        return new UserPrincipal(applicationUser.getId(), applicationUser.getName(), applicationUser.getUsername(), applicationUser.getEmail(), applicationUser.getPassword());
+        return new UserPrincipal(
+                applicationUser.getId(), 
+                applicationUser.getName(), 
+                applicationUser.getUsername(), 
+                applicationUser.getEmail(), 
+                applicationUser.getPassword());
     }
 
     @Override
