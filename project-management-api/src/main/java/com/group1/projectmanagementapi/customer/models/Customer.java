@@ -1,6 +1,9 @@
 package com.group1.projectmanagementapi.customer.models;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -8,14 +11,19 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.group1.projectmanagementapi.applicationuser.ApplicationUser;
+import com.group1.projectmanagementapi.customer.models.dto.response.CustomerCreateResponse;
 import com.group1.projectmanagementapi.customer.models.dto.response.CustomerResponse;
+import com.group1.projectmanagementapi.customer.models.dto.response.CustomerUpdateResponse;
 import com.group1.projectmanagementapi.image.models.Image;
+import com.group1.projectmanagementapi.project.models.Project;
+import com.group1.projectmanagementapi.project.models.dto.response.ProjectListResponse;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -51,6 +59,9 @@ public class Customer {
     @Cascade(CascadeType.ALL)
     private Image image;
 
+    @OneToMany(mappedBy = "customer")
+    private List<Project> projects;
+
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private Timestamp createdAt;
@@ -60,14 +71,43 @@ public class Customer {
 
     public CustomerResponse convertToResponse() {
         // String imageUrl = image.getUrl();
+        List<ProjectListResponse> projectLists = this.projects.stream()
+                                                    .sorted(Comparator.comparing(Project::getUpdatedAt).reversed())
+                                                    .map(Project::convertToListResponse)
+                                                    .toList();
         return CustomerResponse.builder()
                 .id(this.id)
                 .name(this.name)
                 .username(this.username)
                 .email(this.email)
                 // .imageUrl(imageUrl)
+                .projects(projectLists)
                 .createdAt(this.createdAt)
                 .build();
     }
+
+    public CustomerCreateResponse convertToCreateResponse() {
+        return CustomerCreateResponse.builder()
+                .id(this.id)
+                .name(this.name)
+                .username(this.username)
+                .email(this.email)
+                .createdAt(this.createdAt)
+                .build();
+    }
+
+    public CustomerUpdateResponse convertToUpdateResponse() {
+        return CustomerUpdateResponse.builder()
+                .id(this.id)
+                .name(this.name)
+                .username(this.username)
+                .email(this.email)
+                .updatedAt(this.updatedAt)
+                .build();
+    }
+
+    // @ManyToMany
+    // @JoinTable(name = "customer_project", joinColumns = @JoinColumn(name = "customer_id"), inverseJoinColumns = @JoinColumn(name = "project_id"))
+    // private List<Project> projectLists;
 
 }

@@ -1,6 +1,4 @@
-package com.group1.projectmanagementapi.card.models.dto;
-
-import com.group1.projectmanagementapi.card.models.Status;
+package com.group1.projectmanagementapi.project.models.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,11 +11,9 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CardResponse {
+public class ProjectListResponse {
 
     private Long id;
     private String title;
-    private String description;
-    private Status status;
     
 }

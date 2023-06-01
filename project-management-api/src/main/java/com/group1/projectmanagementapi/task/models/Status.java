@@ -1,4 +1,4 @@
-package com.group1.projectmanagementapi.card.models;
+package com.group1.projectmanagementapi.task.models;
 
 public enum Status {
 

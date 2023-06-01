@@ -44,5 +44,4 @@ public class ApplicationUser {
 
     @OneToOne
     private Customer customer;
-
 }
