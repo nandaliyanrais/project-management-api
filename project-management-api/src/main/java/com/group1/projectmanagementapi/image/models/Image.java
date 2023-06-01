@@ -1,4 +1,4 @@
-package com.group1.projectmanagementapi.image;
+package com.group1.projectmanagementapi.image.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,7 +17,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Image {
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,5 +26,7 @@ public class Image {
 
     private String type;
 
+    // @Column(name = "image", unique = false, nullable = false, length = 100000)
     private String url;
+    
 }

@@ -1,10 +1,10 @@
-package com.group1.projectmanagementapi.project.model.dto;
+package com.group1.projectmanagementapi.project.models.dto.response;
 
 import java.sql.Timestamp;
 import java.util.List;
 
-import com.group1.projectmanagementapi.card.models.Card;
-import com.group1.projectmanagementapi.customer.models.Customer;
+import com.group1.projectmanagementapi.customer.models.dto.response.CustomerCreateResponse;
+import com.group1.projectmanagementapi.task.models.Task;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,9 +20,9 @@ import lombok.Setter;
 public class ProjectResponse {
     
     private Long id;
-    private String name;
-    private List<Card> cards;
-    private List<Customer> projectMembers;
+    private String title;
+    private List<Task> tasks;
+    private List<CustomerCreateResponse> projectMembers;
     private Timestamp createdAt;
     private Timestamp updatedAt;
 }

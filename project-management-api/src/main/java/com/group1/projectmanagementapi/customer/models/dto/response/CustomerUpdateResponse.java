@@ -1,11 +1,6 @@
 package com.group1.projectmanagementapi.customer.models.dto.response;
 
-
-
 import java.sql.Timestamp;
-import java.util.List;
-
-import com.group1.projectmanagementapi.project.models.dto.response.ProjectListResponse;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,14 +13,12 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CustomerResponse {
+public class CustomerUpdateResponse {
 
     private Long id;
     private String name;
     private String username;
     private String email;
-    private String imageUrl;
-    private List<ProjectListResponse> projects;
-    private Timestamp createdAt;
+    private Timestamp updatedAt;
     
 }

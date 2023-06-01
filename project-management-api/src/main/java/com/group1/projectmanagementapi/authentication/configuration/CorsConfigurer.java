@@ -13,4 +13,3 @@ public class CorsConfigurer implements WebMvcConfigurer {
                 .allowedOrigins("*");
     }
 }
-

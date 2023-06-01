@@ -1,7 +1,7 @@
-package com.group1.projectmanagementapi.card.models.dto;
+package com.group1.projectmanagementapi.task.models.dto.request;
 
-import com.group1.projectmanagementapi.card.models.Card;
-import com.group1.projectmanagementapi.card.models.Status;
+import com.group1.projectmanagementapi.task.models.Task;
+import com.group1.projectmanagementapi.task.models.Status;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
@@ -13,7 +13,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CardRequest {
+public class TaskRequest {
+
+    private Long id;
     
     @NotEmpty(message = "Title is required")
     private String title;
@@ -22,8 +24,9 @@ public class CardRequest {
 
     private Status status;
 
-    public Card convertToEntity() {
-        return Card.builder()
+    public Task convertToEntity() {
+        return Task.builder()
+                .id(this.id)
                 .title(this.title)
                 .description(this.description)
                 .status(this.status)
