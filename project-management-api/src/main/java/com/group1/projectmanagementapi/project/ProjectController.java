@@ -2,6 +2,7 @@ package com.group1.projectmanagementapi.project;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -53,6 +54,7 @@ public class ProjectController {
     }
 
     @DeleteMapping("/projects/{id}")
+    // @PreAuthorize("#id == authentication.principal.id")
     public ResponseEntity<Project> deleteProject(@PathVariable("id") int id) {
         Project existingProject = this.projectService.getProjectById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Not found Project with id = " + id));
