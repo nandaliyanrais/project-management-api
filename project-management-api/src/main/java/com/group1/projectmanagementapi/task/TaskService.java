@@ -1,11 +1,9 @@
 package com.group1.projectmanagementapi.task;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.group1.projectmanagementapi.project.ProjectService;
 import com.group1.projectmanagementapi.project.models.Project;
 import com.group1.projectmanagementapi.task.exception.TaskNotFoundException;
 import com.group1.projectmanagementapi.task.models.Task;
@@ -17,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 public class TaskService {
 
     private final TaskRepository taskRepository;
-    private final ProjectService projectService;
+    // private final ProjectService projectService;
 
     public Task findOneById(Long id) {
         return this.taskRepository.findById(id).orElseThrow(() -> new TaskNotFoundException());
