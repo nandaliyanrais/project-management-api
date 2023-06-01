@@ -5,7 +5,7 @@ import java.util.Optional;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.group1.projectmanagementapi.applicationUser.ApplicationUser;
+import com.group1.projectmanagementapi.applicationuser.ApplicationUser;
 import com.group1.projectmanagementapi.customer.exception.CustomerNotFoundException;
 import com.group1.projectmanagementapi.customer.models.Customer;
 import com.group1.projectmanagementapi.exception.ResourceNotFoundException;

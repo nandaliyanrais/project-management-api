@@ -1,4 +1,4 @@
-package com.group1.projectmanagementapi.applicationUser;
+package com.group1.projectmanagementapi.applicationuser;
 
 import java.util.UUID;
 

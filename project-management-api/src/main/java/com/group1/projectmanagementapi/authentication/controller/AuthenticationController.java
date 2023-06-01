@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.group1.projectmanagementapi.applicationUser.ApplicationUser;
-import com.group1.projectmanagementapi.applicationUser.ApplicationUserRepository;
+import com.group1.projectmanagementapi.applicationuser.ApplicationUser;
+import com.group1.projectmanagementapi.applicationuser.ApplicationUserRepository;
 import com.group1.projectmanagementapi.authentication.jwt.JwtProvider;
 import com.group1.projectmanagementapi.authentication.models.dto.JwtResponseDto;
 import com.group1.projectmanagementapi.authentication.models.dto.LoginRequestDto;

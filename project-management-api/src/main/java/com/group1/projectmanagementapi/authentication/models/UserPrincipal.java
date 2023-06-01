@@ -8,7 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.group1.projectmanagementapi.applicationUser.ApplicationUser;
+import com.group1.projectmanagementapi.applicationuser.ApplicationUser;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

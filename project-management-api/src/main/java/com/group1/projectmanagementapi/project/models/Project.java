@@ -2,10 +2,8 @@ package com.group1.projectmanagementapi.project.models;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
-import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -15,7 +13,7 @@ import com.group1.projectmanagementapi.customer.models.dto.response.CustomerCrea
 import com.group1.projectmanagementapi.project.models.dto.response.ProjectListResponse;
 import com.group1.projectmanagementapi.project.models.dto.response.ProjectResponse;
 import com.group1.projectmanagementapi.task.models.Task;
-import com.group1.projectmanagementapi.task.models.dto.response.TaskListResponse;
+import com.group1.projectmanagementapi.task.models.dto.response.TaskResponse;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -54,8 +52,9 @@ public class Project {
     // private Customer customers;
 
     @OneToMany(mappedBy = "project")
+    @Builder.Default
     // @Cascade(CascadeType.ALL)
-    private List<Task> tasks;
+    private List<Task> tasks = new ArrayList<>();
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
@@ -85,10 +84,12 @@ public class Project {
         List<CustomerCreateResponse> customers = this.projectMembers.stream().map(c -> c.convertToCreateResponse())
                 .toList();
 
+        List<TaskResponse> tasks = this.tasks.stream().map(task -> task.convertToResponse()).toList();
+
         return ProjectResponse.builder()
                 .id(this.id)
                 .title(this.title)
-                .tasks(this.tasks)
+                .tasks(tasks)
                 .projectMembers(customers)
                 .createdAt(this.createdAt)
                 .updatedAt(this.updatedAt)

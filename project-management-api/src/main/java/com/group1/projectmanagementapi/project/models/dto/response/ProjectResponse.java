@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import com.group1.projectmanagementapi.customer.models.dto.response.CustomerCreateResponse;
-import com.group1.projectmanagementapi.task.models.Task;
+import com.group1.projectmanagementapi.task.models.dto.response.TaskResponse;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,7 +21,7 @@ public class ProjectResponse {
     
     private Long id;
     private String title;
-    private List<Task> tasks;
+    private List<TaskResponse> tasks;
     private List<CustomerCreateResponse> projectMembers;
     private Timestamp createdAt;
     private Timestamp updatedAt;

@@ -4,8 +4,8 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.group1.projectmanagementapi.exception.ResourceNotFoundException;
 import com.group1.projectmanagementapi.project.models.Project;
-import com.group1.projectmanagementapi.task.exception.TaskNotFoundException;
 import com.group1.projectmanagementapi.task.models.Task;
 
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ public class TaskService {
     // private final ProjectService projectService;
 
     public Task findOneById(Long id) {
-        return this.taskRepository.findById(id).orElseThrow(() -> new TaskNotFoundException());
+        return this.taskRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Not found Task with id = " + id));
     }
 
     public Task createOne(Task task) {
@@ -46,7 +46,7 @@ public class TaskService {
 
     public void deleteOne(Long id) {
         Task task = taskRepository.findById(id)
-                .orElseThrow(() -> new TaskNotFoundException());
+                .orElseThrow(() -> new ResourceNotFoundException("Not found Task with id = " + id));
 
         Project project = task.getProject();
         if (project != null) {

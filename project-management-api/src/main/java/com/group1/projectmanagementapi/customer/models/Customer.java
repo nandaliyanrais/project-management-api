@@ -8,7 +8,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.group1.projectmanagementapi.applicationUser.ApplicationUser;
+import com.group1.projectmanagementapi.applicationuser.ApplicationUser;
 import com.group1.projectmanagementapi.customer.models.dto.response.CustomerCreateResponse;
 import com.group1.projectmanagementapi.customer.models.dto.response.CustomerResponse;
 import com.group1.projectmanagementapi.customer.models.dto.response.CustomerUpdateResponse;

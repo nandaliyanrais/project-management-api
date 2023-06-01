@@ -1,6 +1,6 @@
 package com.group1.projectmanagementapi.customer.models.dto.request;
 
-import com.group1.projectmanagementapi.applicationUser.ApplicationUser;
+import com.group1.projectmanagementapi.applicationuser.ApplicationUser;
 import com.group1.projectmanagementapi.customer.models.Customer;
 
 import jakarta.validation.constraints.Email;

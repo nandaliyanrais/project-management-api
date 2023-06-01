@@ -13,7 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.group1.projectmanagementapi.applicationUser.ApplicationUserService;
+import com.group1.projectmanagementapi.applicationuser.ApplicationUserService;
 import com.group1.projectmanagementapi.authentication.jwt.JwtAuthenticationEntryPoint;
 import com.group1.projectmanagementapi.authentication.jwt.JwtAuthenticationTokenFilter;
 
@@ -55,9 +55,9 @@ public class WebSecurityConfigurer {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeHttpRequests().requestMatchers("/login").permitAll().and()
                 .authorizeHttpRequests().requestMatchers("/register").permitAll().and()
-                .authorizeHttpRequests().requestMatchers("/users/**").permitAll().and()
-                .authorizeHttpRequests().requestMatchers("/projects/**").permitAll().and()
-                .authorizeHttpRequests().requestMatchers("/tasks/**").permitAll().and()
+                // .authorizeHttpRequests().requestMatchers("/users/**").permitAll().and()
+                // .authorizeHttpRequests().requestMatchers("/projects/**").permitAll().and()
+                // .authorizeHttpRequests().requestMatchers("/tasks/**").permitAll().and()
                 .authorizeHttpRequests().anyRequest().authenticated();
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);

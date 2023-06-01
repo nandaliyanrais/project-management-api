@@ -27,8 +27,12 @@ public class ProjectService {
     public Project updateOne(Long id, Project project, Customer customer) {
         Project existingProject = this.findOneById(id);
 
+        if (existingProject.getProjectMembers().contains(customer)) {
+            return null;
+        }
+
         existingProject.setTitle(project.getTitle());
-        
+
         customer.getProjects().add(existingProject);
         existingProject.getProjectMembers().add(customer);
 
@@ -39,10 +43,10 @@ public class ProjectService {
         Project project = this.findOneById(id);
 
         // Hapus referensi Project dari daftar projects pada Customer
-        // Customer customer = project.getCustomer();
-        // if (customer != null) {
-        //     customer.getProjects().remove(project);
-        // }
+        List<Customer> customer = project.getProjectMembers();
+        if (customer != null) {
+            customer.stream().map(cust -> cust.getProjects().remove(project));
+        }
         
         projectRepository.delete(project);
     }

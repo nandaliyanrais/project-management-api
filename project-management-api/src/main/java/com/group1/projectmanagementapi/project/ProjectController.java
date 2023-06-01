@@ -1,6 +1,5 @@
 package com.group1.projectmanagementapi.project;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -18,6 +17,7 @@ import com.group1.projectmanagementapi.customer.models.Customer;
 import com.group1.projectmanagementapi.project.models.Project;
 import com.group1.projectmanagementapi.project.models.dto.request.ProjectRequest;
 import com.group1.projectmanagementapi.project.models.dto.response.ProjectResponse;
+import com.group1.projectmanagementapi.task.models.dto.response.TaskResponse;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -64,8 +64,12 @@ public class ProjectController {
 
         Customer customer = this.customerService.findOneByUsername(projectRequest.getUsername());
         Project project = projectRequest.convertToEntity();
-                
+
         Project updatedProject = this.projectService.updateOne(id, project, customer);
+        
+        if (updatedProject == null) {
+            return ResponseEntity.badRequest().build();
+        }
         return ResponseEntity.ok().body(updatedProject.convertToResponse());
     }
 
@@ -74,6 +78,13 @@ public class ProjectController {
     public ResponseEntity<String> deleteProject(@PathVariable("projectId") Long id) {
         this.projectService.deleteOne(id);
         return ResponseEntity.ok("Project deleted successfully");
+    }
+
+    @GetMapping("/projects/{id}/tasks")
+    public ResponseEntity<List<TaskResponse>> getAllTasks(@PathVariable("id") Long id) {
+    Project existingProject = this.projectService.findOneById(id);
+    List<TaskResponse> taskLists = existingProject.getTasks().stream().map(task -> task.convertToResponse()).toList();
+    return ResponseEntity.ok().body(taskLists);
     }
 
     // @PutMapping("/projects/{id}")
@@ -95,10 +106,5 @@ public class ProjectController {
     // return ResponseEntity.notFound().build();
     // }
 
-    // @GetMapping("/projects/{id}/Tasks")
-    // public ResponseEntity<List<Task>> getAllTasks(@PathVariable("id") Long id) {
-    // Project existingProject = this.projectService.findOneById(id);
-    // List<Task> taskLists = existingProject.getTasks();
-    // return ResponseEntity.ok().body(taskLists);
-    // }
+    
 }
