@@ -1,10 +1,9 @@
 package com.group1.projectmanagementapi.project;
 
-import java.util.List;
-
 import org.springframework.stereotype.Service;
 
 import com.group1.projectmanagementapi.customer.models.Customer;
+import com.group1.projectmanagementapi.exception.MissingServletRequestParameterException;
 import com.group1.projectmanagementapi.exception.ResourceNotFoundException;
 import com.group1.projectmanagementapi.project.models.Project;
 
@@ -28,7 +27,7 @@ public class ProjectService {
         Project existingProject = this.findOneById(id);
 
         if (existingProject.getProjectMembers().contains(customer)) {
-            return null;
+            throw new MissingServletRequestParameterException("User already in this project");
         }
 
         existingProject.setTitle(project.getTitle());
@@ -42,12 +41,7 @@ public class ProjectService {
     public void deleteOne(Long id) {
         Project project = this.findOneById(id);
 
-        // Hapus referensi Project dari daftar projects pada Customer
-        List<Customer> customer = project.getProjectMembers();
-        if (customer != null) {
-            customer.stream().map(cust -> cust.getProjects().remove(project));
-        }
-        
-        projectRepository.delete(project);
+        this.projectRepository.deleteProjectMembers(id);
+        this.projectRepository.delete(project);
     }
 }

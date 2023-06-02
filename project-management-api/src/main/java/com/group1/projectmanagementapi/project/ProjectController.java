@@ -67,9 +67,6 @@ public class ProjectController {
 
         Project updatedProject = this.projectService.updateOne(id, project, customer);
         
-        if (updatedProject == null) {
-            return ResponseEntity.badRequest().build();
-        }
         return ResponseEntity.ok().body(updatedProject.convertToResponse());
     }
 
@@ -87,24 +84,4 @@ public class ProjectController {
     return ResponseEntity.ok().body(taskLists);
     }
 
-    // @PutMapping("/projects/{id}")
-    // public ResponseEntity<ProjectResponse> updateProject(@PathVariable("id") int
-    // id, @RequestBody ProjectRequest projectRequest) {
-    // Optional<Project> existingProject = this.projectService.getProjectById(id);
-
-    // if (existingProject.isPresent()) {
-    // Project project = projectRequest.convertToEntity();
-    // existingProject.get().setName(project.getName());
-    // existingProject.get().setProjectMembers(project.getProjectMembers());
-
-    // Project saveProject = this.projectService.postProject(existingProject.get());
-    // ProjectResponse projectResponse = saveProject.convertToResponse();
-
-    // return ResponseEntity.ok().body(projectResponse);
-    // }
-
-    // return ResponseEntity.notFound().build();
-    // }
-
-    
 }

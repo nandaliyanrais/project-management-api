@@ -21,8 +21,20 @@ public class ControllerExceptionHandler {
         request.getDescription(false));
     
     return new ResponseEntity<ErrorMessage>(message, HttpStatus.NOT_FOUND);
-  }
+  }  
   
+  @ExceptionHandler(MissingServletRequestParameterException.class)
+  public ResponseEntity<ErrorMessage> MissingServletRequestParameterException(MissingServletRequestParameterException ex, WebRequest request) {
+    ErrorMessage message = new ErrorMessage(
+        HttpStatus.BAD_REQUEST.value(),
+        new Date(),
+        ex.getMessage(),
+        request.getDescription(false));
+    
+    return new ResponseEntity<ErrorMessage>(message, HttpStatus.BAD_REQUEST);
+  }  
+
+
   @ExceptionHandler(AccessDeniedException.class)
   public ResponseEntity<ErrorMessage> forbiddenExceptioResponseEntity(AccessDeniedException ex, WebRequest request) {
     ErrorMessage message = new ErrorMessage(

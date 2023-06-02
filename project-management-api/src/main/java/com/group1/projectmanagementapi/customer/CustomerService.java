@@ -6,7 +6,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.group1.projectmanagementapi.applicationuser.ApplicationUser;
-import com.group1.projectmanagementapi.customer.exception.CustomerNotFoundException;
 import com.group1.projectmanagementapi.customer.models.Customer;
 import com.group1.projectmanagementapi.exception.ResourceNotFoundException;
 
@@ -20,7 +19,7 @@ public class CustomerService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public Customer findOneById(Long id) {
-        return this.customerRepository.findById(id).orElseThrow(() -> new CustomerNotFoundException());
+        return this.customerRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Not found customer with id = " + id));
     }
 
     public Customer save(Customer customer) {

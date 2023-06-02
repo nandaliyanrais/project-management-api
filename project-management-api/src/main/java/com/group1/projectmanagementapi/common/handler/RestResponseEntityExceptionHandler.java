@@ -32,9 +32,6 @@ public class RestResponseEntityExceptionHandler {
                 request.getDescription(false));
 
         return new ResponseEntity<ErrorMessageBadRequest>(message, HttpStatus.BAD_REQUEST);
-
-        // return new ResponseEntity<Map<String, String>>(getErrorsMap(errors,
-        // errorField), new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 
     private Map<String, String> getErrorsMap(List<String> errors, List<String> errorFields) {
