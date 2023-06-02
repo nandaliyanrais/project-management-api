@@ -1,5 +1,7 @@
 package com.group1.projectmanagementapi.customer;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +18,8 @@ import com.group1.projectmanagementapi.customer.models.dto.response.CustomerCrea
 import com.group1.projectmanagementapi.customer.models.dto.response.CustomerMessageResponse;
 import com.group1.projectmanagementapi.customer.models.dto.response.CustomerResponse;
 import com.group1.projectmanagementapi.customer.models.dto.response.CustomerUpdateResponse;
+import com.group1.projectmanagementapi.project.models.Project;
+import com.group1.projectmanagementapi.project.models.dto.response.ProjectListResponse;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -61,5 +65,14 @@ public class CustomerController {
         CustomerResponse response = existingCustomer.convertToResponse();
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @GetMapping("/users/{userId}/projects")
+    public ResponseEntity<List<ProjectListResponse>> getAllUserProjects(@PathVariable("userId") Long id) {
+        Customer findCustomer = this.customerService.findOneById(id);
+        List<Project> projects = findCustomer.getProjects();
+        List<ProjectListResponse> projectListResponses = projects.stream().map(project -> project.convertToListResponse()).toList();
+
+        return ResponseEntity.status(HttpStatus.OK).body(projectListResponses);
     }
 }

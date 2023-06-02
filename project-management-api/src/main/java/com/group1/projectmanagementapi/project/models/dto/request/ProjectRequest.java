@@ -19,8 +19,8 @@ public class ProjectRequest {
     @NotEmpty(message = "Title is required")
     private String title;
 
-    @NotEmpty(message = "Username is required")
-    private String username;
+    @NotEmpty(message = "projectMember is required")
+    private String projectMember;
     
     // private Customer customer;
 
@@ -30,22 +30,4 @@ public class ProjectRequest {
                 .title(this.title)
                 .build();
     }
-
-    // public Project convertToEntity() {
-
-    //     Project projectEntity = Project.builder().title(this.title).build(); 
-
-    //     List<Customer> projectMembers = projectEntity.getProjectMembers();
-    //     if (projectMembers == null) {
-    //         List<Customer> newListProjectMembers = new ArrayList<>();
-    //         newListProjectMembers.add(this.customer);
-
-    //         projectEntity.setProjectMembers(newListProjectMembers);
-    //         return projectEntity;
-    //     }
-
-    //     projectMembers.add(this.customer);
-    //     projectEntity.setProjectMembers(projectMembers);
-    //     return projectEntity;
-    // }
 }

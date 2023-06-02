@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.group1.projectmanagementapi.customer.models.Customer;
+import com.group1.projectmanagementapi.exception.MissingServletRequestParameterException;
 import com.group1.projectmanagementapi.exception.ResourceNotFoundException;
 import com.group1.projectmanagementapi.project.models.Project;
 
@@ -29,7 +30,7 @@ public class ProjectService {
         Project existingProject = this.findOneById(id);
 
         if (existingProject.getProjectMembers().contains(customer)) {
-            return null;
+            throw new MissingServletRequestParameterException("User already in this project");
         }
 
         existingProject.setTitle(project.getTitle());
