@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.group1.projectmanagementapi.exception.ResourceNotFoundException;
+import com.group1.projectmanagementapi.project.ProjectService;
 import com.group1.projectmanagementapi.project.models.Project;
 import com.group1.projectmanagementapi.task.models.Task;
 
@@ -16,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 public class TaskService {
 
     private final TaskRepository taskRepository;
-    // private final ProjectService projectService;
+    private final ProjectService projectService;
 
     public Task findOneById(Long id) {
         return this.taskRepository.findById(id)
@@ -27,22 +28,45 @@ public class TaskService {
         return this.taskRepository.save(task);
     }
 
+    // public Task updateOne(Task task) {
+    //     Task existingTask = this.findOneById(task.getId());
+
+    //     Project existingProject = existingTask.getProject();
+
+    //     Optional.ofNullable(task.getTitle()).ifPresent(existingTask::setTitle);
+    //     Optional.ofNullable(task.getDescription()).ifPresent(existingTask::setDescription);
+    //     Optional.ofNullable(task.getStatus()).ifPresent(existingTask::setStatus);
+    //     // Optional.ofNullable(task.getProjects()).ifPresent(existingTask::setProjects);
+
+    //     if (existingTask.getProject() == null) {
+    //         existingTask.setProject(existingProject);
+    //     }
+
+    //     Task updatedTask = this.taskRepository.save(existingTask);
+
+    //     return updatedTask;
+    // }
+
     public Task updateOne(Task task) {
         Task existingTask = this.findOneById(task.getId());
 
-        Project existingProject = existingTask.getProject();
+        if (task.getProject() != null && task.getProject().getId() != null) {
+            Project project = projectService.findOneById(task.getProject().getId());
+
+            if (project == null) {
+                throw new ResourceNotFoundException("Not found Project with id = " + task.getProject().getId());
+            }
+
+            existingTask.setProject(project);
+        } else {
+            throw new IllegalArgumentException("Not found Project!");
+        }
 
         Optional.ofNullable(task.getTitle()).ifPresent(existingTask::setTitle);
         Optional.ofNullable(task.getDescription()).ifPresent(existingTask::setDescription);
         Optional.ofNullable(task.getStatus()).ifPresent(existingTask::setStatus);
-        // Optional.ofNullable(task.getProjects()).ifPresent(existingTask::setProjects);
-
-        if (existingTask.getProject() == null) {
-            existingTask.setProject(existingProject);
-        }
 
         Task updatedTask = this.taskRepository.save(existingTask);
-
         return updatedTask;
     }
 
