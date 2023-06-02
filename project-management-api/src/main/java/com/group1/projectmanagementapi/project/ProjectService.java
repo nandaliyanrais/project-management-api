@@ -17,7 +17,8 @@ public class ProjectService {
     private final ProjectRepository projectRepository;
 
     public Project findOneById(Long id) {
-        return this.projectRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Not found Project with id = " + id));
+        return this.projectRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Not found Project with id = " + id));
     }
 
     public Project createOne(Project project) {
@@ -47,7 +48,8 @@ public class ProjectService {
         if (customer != null) {
             customer.stream().map(cust -> cust.getProjects().remove(project));
         }
-        
+
         projectRepository.delete(project);
     }
+
 }
