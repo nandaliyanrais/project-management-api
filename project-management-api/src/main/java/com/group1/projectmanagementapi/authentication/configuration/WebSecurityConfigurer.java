@@ -55,9 +55,9 @@ public class WebSecurityConfigurer {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeHttpRequests().requestMatchers("/login").permitAll().and()
                 .authorizeHttpRequests().requestMatchers("/register").permitAll().and()
-                // .authorizeHttpRequests().requestMatchers("/users/**").permitAll().and()
-                // .authorizeHttpRequests().requestMatchers("/projects/**").permitAll().and()
-                // .authorizeHttpRequests().requestMatchers("/tasks/**").permitAll().and()
+                .authorizeHttpRequests().requestMatchers("/users/**").permitAll().and()
+                .authorizeHttpRequests().requestMatchers("/projects/**").permitAll().and()
+                .authorizeHttpRequests().requestMatchers("/tasks/**").permitAll().and()
                 .authorizeHttpRequests().anyRequest().authenticated();
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);

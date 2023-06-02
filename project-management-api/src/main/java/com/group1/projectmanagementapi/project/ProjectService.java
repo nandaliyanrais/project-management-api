@@ -1,5 +1,7 @@
 package com.group1.projectmanagementapi.project;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.group1.projectmanagementapi.customer.models.Customer;
@@ -16,7 +18,8 @@ public class ProjectService {
     private final ProjectRepository projectRepository;
 
     public Project findOneById(Long id) {
-        return this.projectRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Not found Project with id = " + id));
+        return this.projectRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Not found Project with id = " + id));
     }
 
     public Project createOne(Project project) {
@@ -41,7 +44,13 @@ public class ProjectService {
     public void deleteOne(Long id) {
         Project project = this.findOneById(id);
 
-        this.projectRepository.deleteProjectMembers(id);
-        this.projectRepository.delete(project);
+        // Hapus referensi Project dari daftar projects pada Customer
+        List<Customer> customer = project.getProjectMembers();
+        if (customer != null) {
+            customer.stream().map(cust -> cust.getProjects().remove(project));
+        }
+
+        projectRepository.delete(project);
     }
+
 }

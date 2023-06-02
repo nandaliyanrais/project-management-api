@@ -1,13 +1,18 @@
 package com.group1.projectmanagementapi.customer;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.group1.projectmanagementapi.applicationuser.ApplicationUser;
 import com.group1.projectmanagementapi.customer.models.Customer;
 import com.group1.projectmanagementapi.exception.ResourceNotFoundException;
+import com.group1.projectmanagementapi.project.ProjectRepository;
+import com.group1.projectmanagementapi.project.models.Project;
 
 import lombok.RequiredArgsConstructor;
 
@@ -17,6 +22,7 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final ProjectRepository projectRepository;
 
     public Customer findOneById(Long id) {
         return this.customerRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Not found customer with id = " + id));
@@ -57,5 +63,28 @@ public class CustomerService {
 
         return this.customerRepository.findByUsername(username).orElseThrow(() -> new ResourceNotFoundException(
                 "Not found customer with username= " + username));
+    }
+
+    // public void removeProjectFromCustomer(Long customerId, Long projectId) {
+    // Customer customer = customerRepository.findById(customerId)
+    // .orElseThrow(() -> new ResourceNotFoundException("Customer not found with id:
+    // " + customerId));
+
+    // Project project = projectRepository.findById(projectId)
+    // .orElseThrow(() -> new ResourceNotFoundException("Project not found with id:
+    // " + projectId));
+
+    // customer.getProjects().remove(project);
+    // customerRepository.save(customer);
+    // }
+
+    @Transactional
+    public void removeProjectFromCustomer(Long projectId) {
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new ResourceNotFoundException("Project not found with id: " + projectId));
+
+        List<Customer> customers = customerRepository.findByProjects_Id(projectId);
+        customers.forEach(customer -> customer.getProjects().remove(project));
+        customerRepository.deleteByProjectsIn(Collections.singletonList(project));
     }
 }

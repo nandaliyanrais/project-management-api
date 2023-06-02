@@ -1,8 +1,10 @@
 package com.group1.projectmanagementapi.task;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.group1.projectmanagementapi.exception.ResourceNotFoundException;
 import com.group1.projectmanagementapi.project.models.Project;
@@ -18,7 +20,8 @@ public class TaskService {
     // private final ProjectService projectService;
 
     public Task findOneById(Long id) {
-        return this.taskRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Not found Task with id = " + id));
+        return this.taskRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Not found Task with id = " + id));
     }
 
     public Task createOne(Task task) {
@@ -41,7 +44,7 @@ public class TaskService {
 
         Task updatedTask = this.taskRepository.save(existingTask);
 
-        return updatedTask;     
+        return updatedTask;
     }
 
     public void deleteOne(Long id) {
@@ -54,7 +57,11 @@ public class TaskService {
         }
 
         taskRepository.delete(task);
-
     }
-    
+
+    @Transactional
+    public void deleteTasksByProjectId(Long projectId) {
+        taskRepository.deleteByProjectId(projectId);
+    }
+
 }

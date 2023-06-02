@@ -64,14 +64,11 @@ public class Project {
     private Timestamp updatedAt;
 
     @JsonIgnore
-    @ManyToMany(
-        fetch = FetchType.LAZY, 
-        cascade = {
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE
-        }, 
-        mappedBy = "projects")
-    
+    }, mappedBy = "projects")
+
     @Builder.Default
     private List<Customer> projectMembers = new ArrayList<>();
 
@@ -83,6 +80,11 @@ public class Project {
 
         List<CustomerCreateResponse> customers = this.projectMembers.stream().map(c -> c.convertToCreateResponse())
                 .toList();
+
+        // List<TaskResponse> tasks = this.tasks.stream()
+        // .filter(task -> task.getStatus().equals("IN_DEV"))
+        // .map(Task::convertToResponse)
+        // .collect(Collectors.toList());
 
         List<TaskResponse> tasks = this.tasks.stream().map(task -> task.convertToResponse()).toList();
 
