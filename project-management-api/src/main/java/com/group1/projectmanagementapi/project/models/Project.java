@@ -38,70 +38,71 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Project {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
 
-    @Column(nullable = false)
-    private String title;
+        @Column(nullable = false)
+        private String title;
 
-    // @ManyToOne
-    // @JoinColumn(name = "customer_id")
-    // @Cascade(CascadeType.ALL)
-    // @JsonIgnore
-    // private Customer customers;
+        // @ManyToOne
+        // @JoinColumn(name = "customer_id")
+        // @Cascade(CascadeType.ALL)
+        // @JsonIgnore
+        // private Customer customers;
 
-    @OneToMany(mappedBy = "project")
-    @Builder.Default
-    // @Cascade(CascadeType.ALL)
-    private List<Task> tasks = new ArrayList<>();
+        @OneToMany(mappedBy = "project")
+        @Builder.Default
+        // @Cascade(CascadeType.ALL)
+        private List<Task> tasks = new ArrayList<>();
 
-    @CreationTimestamp
-    @Column(nullable = false, updatable = false)
-    private Timestamp createdAt;
+        @CreationTimestamp
+        @Column(nullable = false, updatable = false)
+        private Timestamp createdAt;
 
-    @UpdateTimestamp
-    private Timestamp updatedAt;
+        @UpdateTimestamp
+        private Timestamp updatedAt;
 
-    @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE
-    }, mappedBy = "projects")
+        @JsonIgnore
+        @ManyToMany(fetch = FetchType.LAZY, cascade = {
+                        CascadeType.PERSIST,
+                        CascadeType.MERGE
+        }, mappedBy = "projects")
 
-    @Builder.Default
-    private List<Customer> projectMembers = new ArrayList<>();
+        @Builder.Default
+        private List<Customer> projectMembers = new ArrayList<>();
 
-    public ProjectResponse convertToResponse() {
-        // List<TaskListResponse> taskLists = this.tasks.stream()
-        // .sorted(Comparator.comparing(Task::getUpdatedAt).reversed())
-        // .map(Task::convertToListResponse)
-        // .toList();
+        public ProjectResponse convertToResponse() {
+                // List<TaskListResponse> taskLists = this.tasks.stream()
+                // .sorted(Comparator.comparing(Task::getUpdatedAt).reversed())
+                // .map(Task::convertToListResponse)
+                // .toList();
 
-        List<CustomerCreateResponse> customers = this.projectMembers.stream().map(c -> c.convertToCreateResponse())
-                .toList();
+                List<CustomerCreateResponse> customers = this.projectMembers.stream()
+                                .map(c -> c.convertToCreateResponse())
+                                .toList();
 
-        // List<TaskResponse> tasks = this.tasks.stream()
-        // .filter(task -> task.getStatus().equals("IN_DEV"))
-        // .map(Task::convertToResponse)
-        // .collect(Collectors.toList());
+                // List<TaskResponse> tasks = this.tasks.stream()
+                // .filter(task -> task.getStatus().equals("IN_DEV"))
+                // .map(Task::convertToResponse)
+                // .collect(Collectors.toList());
 
-        List<TaskResponse> tasks = this.tasks.stream().map(task -> task.convertToResponse()).toList();
+                List<TaskResponse> tasks = this.tasks.stream().map(task -> task.convertToResponse()).toList();
 
-        return ProjectResponse.builder()
-                .id(this.id)
-                .title(this.title)
-                .tasks(tasks)
-                .projectMembers(customers)
-                .createdAt(this.createdAt)
-                .updatedAt(this.updatedAt)
-                .build();
-    }
+                return ProjectResponse.builder()
+                                .id(this.id)
+                                .title(this.title)
+                                .tasks(tasks)
+                                .projectMembers(customers)
+                                .createdAt(this.createdAt)
+                                .updatedAt(this.updatedAt)
+                                .build();
+        }
 
-    public ProjectListResponse convertToListResponse() {
-        return ProjectListResponse.builder()
-                .id(this.id)
-                .title(this.title)
-                .build();
-    }
+        public ProjectListResponse convertToListResponse() {
+                return ProjectListResponse.builder()
+                                .id(this.id)
+                                .title(this.title)
+                                .build();
+        }
 }

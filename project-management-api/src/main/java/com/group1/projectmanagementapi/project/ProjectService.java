@@ -1,5 +1,6 @@
 package com.group1.projectmanagementapi.project;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,36 +34,37 @@ public class ProjectService {
     }
 
     // public Project updateOne(Long id, Project project, Customer customer) {
-    //     Project existingProject = this.findOneById(id);
+    // Project existingProject = this.findOneById(id);
 
-    //     if (existingProject.getProjectMembers().contains(customer)) {
-    //         throw new MissingServletRequestParameterException("User already in this project");
-    //     }
+    // if (existingProject.getProjectMembers().contains(customer)) {
+    // throw new MissingServletRequestParameterException("User already in this
+    // project");
+    // }
 
-    //     existingProject.setTitle(project.getTitle());
+    // existingProject.setTitle(project.getTitle());
 
-    //     customer.getProjects().add(existingProject);
-    //     existingProject.getProjectMembers().add(customer);
+    // customer.getProjects().add(existingProject);
+    // existingProject.getProjectMembers().add(customer);
 
-    //     return this.projectRepository.save(existingProject);
+    // return this.projectRepository.save(existingProject);
     // }
 
     public Project updateOne(Long id, Project project, Customer customer) {
         Project existingProject = this.findOneById(id);
-    
+
         if (existingProject.getProjectMembers().contains(customer)) {
             throw new MissingServletRequestParameterException("User already in this project");
         }
-    
+
         if (project.getTitle() != null) {
             existingProject.setTitle(project.getTitle());
         }
-    
+
         if (customer != null) {
             customer.getProjects().add(existingProject);
             existingProject.getProjectMembers().add(customer);
         }
-    
+
         return this.projectRepository.save(existingProject);
     }
 
@@ -87,11 +89,28 @@ public class ProjectService {
 
             return taskFiltered;
         }
-        
+
         return taskLists;
     }
 
     public List<String> getProjectStatus(Long id) {
-        return this.projectRepository.getAllProjectStatus(id);
+        List<String> statusList = new ArrayList<>();
+        statusList.add("TO_DO");
+        statusList.add("IN_DEV");
+        statusList.add("DONE");
+
+        List<String> getStatus = this.projectRepository.getAllProjectStatus(id);
+        List<String> filteredStatus = getStatus.stream()
+                .filter(stat -> !stat.equalsIgnoreCase("TO_DO")
+                        && !stat.equalsIgnoreCase("IN_DEV")
+                        && !stat.equalsIgnoreCase("DONE"))
+                .toList();
+
+        if (!filteredStatus.isEmpty()) {
+            statusList.addAll(filteredStatus);
+            return statusList;
+        }
+
+        return statusList;
     }
 }

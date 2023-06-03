@@ -44,18 +44,19 @@ public class ProjectController {
 
     // @PostMapping("/projects")
     // public ResponseEntity<ProjectResponse> createProject(
-    //         @Valid @RequestBody ProjectRequest projectRequest) {
+    // @Valid @RequestBody ProjectRequest projectRequest) {
 
-    //     Customer customer = customerService.findOneByUsername(projectRequest.getProjectMember());
-    //     Project newProject = projectRequest.convertToEntity();
+    // Customer customer =
+    // customerService.findOneByUsername(projectRequest.getProjectMember());
+    // Project newProject = projectRequest.convertToEntity();
 
-    //     customer.getProjects().add(newProject);
-    //     newProject.getProjectMembers().add(customer);
+    // customer.getProjects().add(newProject);
+    // newProject.getProjectMembers().add(customer);
 
-    //     Project saveProject = projectService.createOne(newProject);
-    //     ProjectResponse projectResponse = saveProject.convertToResponse();
+    // Project saveProject = projectService.createOne(newProject);
+    // ProjectResponse projectResponse = saveProject.convertToResponse();
 
-    //     return ResponseEntity.status(HttpStatus.CREATED).body(projectResponse);
+    // return ResponseEntity.status(HttpStatus.CREATED).body(projectResponse);
     // }
 
     @PostMapping("/projects")
@@ -82,8 +83,7 @@ public class ProjectController {
         List<ProjectResponse> projectResponses = projects.stream().map(project -> project.convertToResponse()).toList();
 
         return ResponseEntity.ok().body(projectResponses);
-    }        
-    
+    }
 
     @GetMapping("/projects/{projectId}")
     public ResponseEntity<ProjectResponse> getProjectById(@PathVariable("projectId") Long id,
@@ -99,7 +99,8 @@ public class ProjectController {
         }
 
         List<String> statuses = this.projectService.getProjectStatus(id);
-        // List<StatusResponse> statusResponses = statuses.stream().map(stat -> stat.convertToResponse()).toList();
+        // List<StatusResponse> statusResponses = statuses.stream().map(stat ->
+        // stat.convertToResponse()).toList();
         ProjectResponse projectResponse = existingProject.convertToResponse();
         projectResponse.setStatuses(statuses);
 
@@ -108,31 +109,34 @@ public class ProjectController {
 
     // @PutMapping("/projects/{projectId}")
     // public ResponseEntity<ProjectResponse> updateProject(
-    //         @PathVariable("projectId") Long id,
-    //         @Valid @RequestBody ProjectRequest projectRequest,
-    //         @AuthenticationPrincipal UserPrincipal currentUser) {
+    // @PathVariable("projectId") Long id,
+    // @Valid @RequestBody ProjectRequest projectRequest,
+    // @AuthenticationPrincipal UserPrincipal currentUser) {
 
-    //     Customer customer = this.customerService.findOneByUsername(projectRequest.getProjectMember());
-    //     Project project = projectRequest.convertToEntity();
-    //     Project existingProject = this.projectService.findOneById(id);
+    // Customer customer =
+    // this.customerService.findOneByUsername(projectRequest.getProjectMember());
+    // Project project = projectRequest.convertToEntity();
+    // Project existingProject = this.projectService.findOneById(id);
 
-    //     Customer customerLogin = this.customerService.findOneByUsername(currentUser.getUsername());
-    //     List<Customer> projectMembers = existingProject.getProjectMembers();
+    // Customer customerLogin =
+    // this.customerService.findOneByUsername(currentUser.getUsername());
+    // List<Customer> projectMembers = existingProject.getProjectMembers();
 
-    //     if (!projectMembers.contains(customerLogin)) {
-    //         throw new AccessDeniedException("You can't access this");
-    //     }
+    // if (!projectMembers.contains(customerLogin)) {
+    // throw new AccessDeniedException("You can't access this");
+    // }
 
-    //     Project updatedProject = this.projectService.updateOne(id, project, customer);
+    // Project updatedProject = this.projectService.updateOne(id, project,
+    // customer);
 
-    //     return ResponseEntity.ok().body(updatedProject.convertToResponse());
+    // return ResponseEntity.ok().body(updatedProject.convertToResponse());
     // }
 
     @PutMapping("/projects/{projectId}")
-        public ResponseEntity<ProjectResponse> updateProject(
-        @PathVariable("projectId") Long id,
-        @Valid @RequestBody ProjectAddMemberRequest projectRequest,
-        @AuthenticationPrincipal UserPrincipal currentUser) {
+    public ResponseEntity<ProjectResponse> updateProject(
+            @PathVariable("projectId") Long id,
+            @Valid @RequestBody ProjectAddMemberRequest projectRequest,
+            @AuthenticationPrincipal UserPrincipal currentUser) {
 
         Project existingProject = this.projectService.findOneById(id);
 
@@ -147,14 +151,14 @@ public class ProjectController {
         if (projectRequest.getAddProjectMember() != null) {
             customer = this.customerService.findOneByUsername(projectRequest.getAddProjectMember());
             // if (customer == null) {
-            //     throw new ResourceNotFoundException("User not found!");
+            // throw new ResourceNotFoundException("User not found!");
             // }
         }
 
         Project project = Project.builder()
-            .id(id)
-            .title(projectRequest.getTitle() != null ? projectRequest.getTitle() : existingProject.getTitle())
-            .build();
+                .id(id)
+                .title(projectRequest.getTitle() != null ? projectRequest.getTitle() : existingProject.getTitle())
+                .build();
 
         Project updatedProject = this.projectService.updateOne(id, project, customer);
 
