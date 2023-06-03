@@ -15,9 +15,7 @@ import lombok.Setter;
 public class ProjectAddMemberRequest {
 
     private Long id;
-
     private String title;
-
     private String addProjectMember;
 
 }

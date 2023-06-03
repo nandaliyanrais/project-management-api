@@ -17,7 +17,7 @@ public class CustomerUpdateRequest {
     private String name;
     private String username;
     private String email;
-    private String image;
+    private String imageUrl;
 
     public Customer convertToEntity() {
         return Customer.builder()
@@ -25,7 +25,7 @@ public class CustomerUpdateRequest {
                 .name(this.name)
                 .username(this.username)
                 .email(this.email)
-                .image(this.image)
+                .imageUrl(this.imageUrl)
                 .build();
     }
 

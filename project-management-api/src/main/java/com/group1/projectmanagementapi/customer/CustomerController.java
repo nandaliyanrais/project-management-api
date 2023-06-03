@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.group1.projectmanagementapi.authentication.models.UserPrincipal;
@@ -52,14 +53,22 @@ public class CustomerController {
 
     @PutMapping("/users/{userId}")
     public ResponseEntity<CustomerUpdateResponse> updateOne(
-            @PathVariable("userId") Long id,
-            @Valid @RequestBody CustomerUpdateRequest customerUpdateRequest) {
+        @PathVariable("userId") Long id,
+        @Valid @RequestBody CustomerUpdateRequest customerUpdateRequest,
+        @AuthenticationPrincipal UserPrincipal currentUser) {
+
+        Customer existingCustomer = this.customerService.findOneById(id);
+        Customer customerLogin = this.customerService.findOneByUsername(currentUser.getUsername());
+
+        if (!existingCustomer.getUsername().equals(customerLogin.getUsername())) {
+            throw new AccessDeniedException("You can't access this");
+        }
 
         Customer customer = customerUpdateRequest.convertToEntity();
         customer.setId(id);
-        Customer updateCustomer = this.customerService.updateOne(customer);
+        Customer updatedCustomer = this.customerService.updateOne(customer);
 
-        return ResponseEntity.status(HttpStatus.OK).body(updateCustomer.convertToUpdateResponse());
+        return ResponseEntity.status(HttpStatus.OK).body(updatedCustomer.convertToUpdateResponse());
     }
 
     @GetMapping("/users/{userId}")

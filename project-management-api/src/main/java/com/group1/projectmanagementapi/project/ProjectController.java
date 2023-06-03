@@ -19,11 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.group1.projectmanagementapi.authentication.models.UserPrincipal;
 import com.group1.projectmanagementapi.customer.CustomerService;
 import com.group1.projectmanagementapi.customer.models.Customer;
+import com.group1.projectmanagementapi.exception.ResourceNotFoundException;
 import com.group1.projectmanagementapi.project.models.Project;
 import com.group1.projectmanagementapi.project.models.dto.request.ProjectAddMemberRequest;
 import com.group1.projectmanagementapi.project.models.dto.request.ProjectRequest;
 import com.group1.projectmanagementapi.project.models.dto.response.ProjectResponse;
 import com.group1.projectmanagementapi.task.TaskService;
+import com.group1.projectmanagementapi.task.models.Task;
 import com.group1.projectmanagementapi.task.models.dto.response.TaskResponse;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -115,19 +117,10 @@ public class ProjectController {
     // }
 
     @PutMapping("/projects/{projectId}")
-    public ResponseEntity<ProjectResponse> updateProject(
-            @PathVariable("projectId") Long id,
-            @Valid @RequestBody ProjectAddMemberRequest projectRequest,
-            @AuthenticationPrincipal UserPrincipal currentUser) {
-
-        Customer customer = null;
-        if (projectRequest.getAddProjectMember() != null) {
-            customer = this.customerService.findOneByUsername(projectRequest.getAddProjectMember());
-        }
-        Project project = Project.builder()
-                .id(id)
-                .title(projectRequest.getTitle())
-                .build();
+        public ResponseEntity<ProjectResponse> updateProject(
+        @PathVariable("projectId") Long id,
+        @Valid @RequestBody ProjectAddMemberRequest projectRequest,
+        @AuthenticationPrincipal UserPrincipal currentUser) {
 
         Project existingProject = this.projectService.findOneById(id);
 
@@ -137,6 +130,19 @@ public class ProjectController {
         if (!projectMembers.contains(customerLogin)) {
             throw new AccessDeniedException("You can't access this");
         }
+
+        Customer customer = null;
+        if (projectRequest.getAddProjectMember() != null) {
+            customer = this.customerService.findOneByUsername(projectRequest.getAddProjectMember());
+            if (customer == null) {
+                throw new ResourceNotFoundException("User not found!");
+            }
+        }
+
+        Project project = Project.builder()
+            .id(id)
+            .title(projectRequest.getTitle() != null ? projectRequest.getTitle() : existingProject.getTitle())
+            .build();
 
         Project updatedProject = this.projectService.updateOne(id, project, customer);
 
@@ -163,6 +169,7 @@ public class ProjectController {
 
     @GetMapping("/projects/{id}/tasks")
     public ResponseEntity<List<TaskResponse>> getAllTasks(@PathVariable("id") Long id,
+            @RequestParam(name = "status") Optional<String> status,
             @AuthenticationPrincipal UserPrincipal currentUser) {
         Project existingProject = this.projectService.findOneById(id);
 
@@ -173,9 +180,9 @@ public class ProjectController {
             throw new AccessDeniedException("You can't access this");
         }
 
-        List<TaskResponse> taskLists = existingProject.getTasks().stream().map(task -> task.convertToResponse())
-                .toList();
-        return ResponseEntity.ok().body(taskLists);
+        List<Task> tasks = this.projectService.getAllTasks(existingProject, status);
+        List<TaskResponse> taskResponses = tasks.stream().map(task -> task.convertToResponse()).toList();
+        return ResponseEntity.ok().body(taskResponses);
     }
 
 }

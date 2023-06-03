@@ -1,6 +1,7 @@
 package com.group1.projectmanagementapi.project;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -8,6 +9,7 @@ import com.group1.projectmanagementapi.customer.models.Customer;
 import com.group1.projectmanagementapi.exception.MissingServletRequestParameterException;
 import com.group1.projectmanagementapi.exception.ResourceNotFoundException;
 import com.group1.projectmanagementapi.project.models.Project;
+import com.group1.projectmanagementapi.task.models.Task;
 
 import lombok.RequiredArgsConstructor;
 
@@ -48,7 +50,9 @@ public class ProjectService {
             throw new MissingServletRequestParameterException("User already in this project");
         }
     
-        existingProject.setTitle(project.getTitle());
+        if (project.getTitle() != null) {
+            existingProject.setTitle(project.getTitle());
+        }
     
         if (customer != null) {
             customer.getProjects().add(existingProject);
@@ -68,5 +72,18 @@ public class ProjectService {
         }
 
         projectRepository.delete(project);
+    }
+
+    public List<Task> getAllTasks(Project project, Optional<String> status) {
+        List<Task> taskLists = project.getTasks();
+
+        if (status.isPresent() && !taskLists.isEmpty()) {
+            List<Task> taskFiltered = taskLists.stream()
+                    .filter(task -> task.getStatus().getStatus().equals(status.get().toUpperCase())).toList();
+
+            return taskFiltered;
+        }
+        
+        return taskLists;
     }
 }

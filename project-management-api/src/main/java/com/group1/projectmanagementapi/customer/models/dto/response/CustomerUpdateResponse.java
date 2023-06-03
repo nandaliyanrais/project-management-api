@@ -19,7 +19,7 @@ public class CustomerUpdateResponse {
     private String name;
     private String username;
     private String email;
-    private String image;
+    private String imageUrl;
     private Timestamp updatedAt;
 
 }
