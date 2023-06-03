@@ -26,18 +26,35 @@ public class ProjectService {
         return this.projectRepository.save(project);
     }
 
+    // public Project updateOne(Long id, Project project, Customer customer) {
+    //     Project existingProject = this.findOneById(id);
+
+    //     if (existingProject.getProjectMembers().contains(customer)) {
+    //         throw new MissingServletRequestParameterException("User already in this project");
+    //     }
+
+    //     existingProject.setTitle(project.getTitle());
+
+    //     customer.getProjects().add(existingProject);
+    //     existingProject.getProjectMembers().add(customer);
+
+    //     return this.projectRepository.save(existingProject);
+    // }
+
     public Project updateOne(Long id, Project project, Customer customer) {
         Project existingProject = this.findOneById(id);
-
+    
         if (existingProject.getProjectMembers().contains(customer)) {
             throw new MissingServletRequestParameterException("User already in this project");
         }
-
+    
         existingProject.setTitle(project.getTitle());
-
-        customer.getProjects().add(existingProject);
-        existingProject.getProjectMembers().add(customer);
-
+    
+        if (customer != null) {
+            customer.getProjects().add(existingProject);
+            existingProject.getProjectMembers().add(customer);
+        }
+    
         return this.projectRepository.save(existingProject);
     }
 

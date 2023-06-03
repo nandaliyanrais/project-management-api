@@ -20,6 +20,7 @@ import com.group1.projectmanagementapi.authentication.models.UserPrincipal;
 import com.group1.projectmanagementapi.customer.CustomerService;
 import com.group1.projectmanagementapi.customer.models.Customer;
 import com.group1.projectmanagementapi.project.models.Project;
+import com.group1.projectmanagementapi.project.models.dto.request.ProjectAddMemberRequest;
 import com.group1.projectmanagementapi.project.models.dto.request.ProjectRequest;
 import com.group1.projectmanagementapi.project.models.dto.response.ProjectResponse;
 import com.group1.projectmanagementapi.task.TaskService;
@@ -40,18 +41,36 @@ public class ProjectController {
     private final CustomerService customerService;
     private final TaskService taskService;
 
+    // @PostMapping("/projects")
+    // public ResponseEntity<ProjectResponse> createProject(
+    //         @Valid @RequestBody ProjectRequest projectRequest) {
+
+    //     Customer customer = customerService.findOneByUsername(projectRequest.getProjectMember());
+    //     Project newProject = projectRequest.convertToEntity();
+
+    //     customer.getProjects().add(newProject);
+    //     newProject.getProjectMembers().add(customer);
+
+    //     Project saveProject = projectService.createOne(newProject);
+    //     ProjectResponse projectResponse = saveProject.convertToResponse();
+
+    //     return ResponseEntity.status(HttpStatus.CREATED).body(projectResponse);
+    // }
+
     @PostMapping("/projects")
     public ResponseEntity<ProjectResponse> createProject(
-            @Valid @RequestBody ProjectRequest projectRequest) {
+            @Valid @RequestBody ProjectRequest projectRequest,
+            @AuthenticationPrincipal UserPrincipal currentUser) {
 
-        Customer customer = customerService.findOneByUsername(projectRequest.getProjectMember());
+        String username = currentUser.getUsername();
+        Customer customer = customerService.findOneByUsername(username);
         Project newProject = projectRequest.convertToEntity();
 
-        customer.getProjects().add(newProject);
         newProject.getProjectMembers().add(customer);
+        customer.getProjects().add(newProject);
 
-        Project saveProject = projectService.createOne(newProject);
-        ProjectResponse projectResponse = saveProject.convertToResponse();
+        Project savedProject = projectService.createOne(newProject);
+        ProjectResponse projectResponse = savedProject.convertToResponse();
 
         return ResponseEntity.status(HttpStatus.CREATED).body(projectResponse);
     }
@@ -73,14 +92,43 @@ public class ProjectController {
         return ResponseEntity.ok().body(projectResponse);
     }
 
+    // @PutMapping("/projects/{projectId}")
+    // public ResponseEntity<ProjectResponse> updateProject(
+    //         @PathVariable("projectId") Long id,
+    //         @Valid @RequestBody ProjectRequest projectRequest,
+    //         @AuthenticationPrincipal UserPrincipal currentUser) {
+
+    //     Customer customer = this.customerService.findOneByUsername(projectRequest.getProjectMember());
+    //     Project project = projectRequest.convertToEntity();
+    //     Project existingProject = this.projectService.findOneById(id);
+
+    //     Customer customerLogin = this.customerService.findOneByUsername(currentUser.getUsername());
+    //     List<Customer> projectMembers = existingProject.getProjectMembers();
+
+    //     if (!projectMembers.contains(customerLogin)) {
+    //         throw new AccessDeniedException("You can't access this");
+    //     }
+
+    //     Project updatedProject = this.projectService.updateOne(id, project, customer);
+
+    //     return ResponseEntity.ok().body(updatedProject.convertToResponse());
+    // }
+
     @PutMapping("/projects/{projectId}")
     public ResponseEntity<ProjectResponse> updateProject(
             @PathVariable("projectId") Long id,
-            @Valid @RequestBody ProjectRequest projectRequest,
+            @Valid @RequestBody ProjectAddMemberRequest projectRequest,
             @AuthenticationPrincipal UserPrincipal currentUser) {
 
-        Customer customer = this.customerService.findOneByUsername(projectRequest.getProjectMember());
-        Project project = projectRequest.convertToEntity();
+        Customer customer = null;
+        if (projectRequest.getAddProjectMember() != null) {
+            customer = this.customerService.findOneByUsername(projectRequest.getAddProjectMember());
+        }
+        Project project = Project.builder()
+                .id(id)
+                .title(projectRequest.getTitle())
+                .build();
+
         Project existingProject = this.projectService.findOneById(id);
 
         Customer customerLogin = this.customerService.findOneByUsername(currentUser.getUsername());

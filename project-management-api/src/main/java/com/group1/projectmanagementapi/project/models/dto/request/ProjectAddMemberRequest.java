@@ -12,22 +12,12 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProjectRequest {
+public class ProjectAddMemberRequest {
 
     private Long id;
 
-    @NotEmpty(message = "Title is required")
     private String title;
 
-    // @NotEmpty(message = "projectMember is required")
-    private String projectMember;
-    
-    // private Customer customer;
+    private String addProjectMember;
 
-    public Project convertToEntity() {
-        return Project.builder()
-                .id(this.id)
-                .title(this.title)
-                .build();
-    }
 }
