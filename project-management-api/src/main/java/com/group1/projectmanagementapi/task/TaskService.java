@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.group1.projectmanagementapi.exception.ResourceNotFoundException;
-import com.group1.projectmanagementapi.project.ProjectService;
 import com.group1.projectmanagementapi.project.models.Project;
+import com.group1.projectmanagementapi.status.StatusRepository;
 import com.group1.projectmanagementapi.status.StatusService;
 import com.group1.projectmanagementapi.status.models.Status;
 import com.group1.projectmanagementapi.task.models.Task;
@@ -20,8 +20,8 @@ import lombok.RequiredArgsConstructor;
 public class TaskService {
 
     private final TaskRepository taskRepository;
+    private final StatusRepository statusRepository;
     private final StatusService statusService;
-    private final ProjectService projectService;
 
     public Task findOneById(Long id) {
         return this.taskRepository.findById(id)
@@ -30,15 +30,16 @@ public class TaskService {
 
     public Task createOne(Task task) {
         Status newStatus = new Status(task.getStatus().getStatus().toUpperCase());
-        Status existingStatus = statusService.findOneByStatus(newStatus.getStatus());
+        Optional<Status> existingStatus = statusService.findOneByStatus(newStatus.getStatus());
         Status status = null;
 
-        if (existingStatus != null) {
-            status = existingStatus;
+        if (existingStatus.isPresent()) {
+            status = existingStatus.get();
         } else {
             statusService.createOne(newStatus);
             status = newStatus;
         }
+
         Task tasks = Task.builder()
                 .id(task.getId())
                 .title(task.getTitle())
@@ -73,19 +74,20 @@ public class TaskService {
     // return updatedTask;
     // }
 
-    public Task updateOne(Task task) {
-        Task existingTask = this.findOneById(task.getId());
+    public Task updateOne(Long id, Task task) {
+        Task existingTask = this.findOneById(id);
 
-        if (task.getProject() != null && task.getProject().getId() != null) {
-            Project project = projectService.findOneById(task.getProject().getId());
+        if (task.getStatus() != null) {
+            Optional<Status> findStatus = this.statusService
+                    .findOneByStatus(task.getStatus().getStatus().toUpperCase());
 
-            if (project == null) {
-                throw new ResourceNotFoundException("Not found Project with id = " + task.getProject().getId());
+            if (findStatus.isPresent()) {
+                task.setStatus(findStatus.get());
+            } else {
+                Status newStatus = new Status(task.getStatus().getStatus().toUpperCase());
+                task.setStatus(newStatus);
+                this.statusRepository.save(newStatus);
             }
-
-            existingTask.setProject(project);
-        } else {
-            throw new IllegalArgumentException("Not found Project!");
         }
 
         Optional.ofNullable(task.getTitle()).ifPresent(existingTask::setTitle);

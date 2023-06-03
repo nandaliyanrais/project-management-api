@@ -108,8 +108,8 @@ public class TaskController {
         }
 
         Task task = taskRequest.convertToEntity();
-        task.setId(taskId);
-        Task updatedTask = this.taskService.updateOne(task);
+        // task.setId(taskId);
+        Task updatedTask = this.taskService.updateOne(taskId, task);
 
         return ResponseEntity.ok().body(updatedTask.convertToResponse());
     }

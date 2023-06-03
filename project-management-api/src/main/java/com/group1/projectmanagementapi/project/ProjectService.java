@@ -90,4 +90,8 @@ public class ProjectService {
         
         return taskLists;
     }
+
+    public List<String> getProjectStatus(Long id) {
+        return this.projectRepository.getAllProjectStatus(id);
+    }
 }

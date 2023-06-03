@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.group1.projectmanagementapi.authentication.models.UserPrincipal;
 import com.group1.projectmanagementapi.customer.CustomerService;
 import com.group1.projectmanagementapi.customer.models.Customer;
-import com.group1.projectmanagementapi.exception.ResourceNotFoundException;
 import com.group1.projectmanagementapi.project.models.Project;
 import com.group1.projectmanagementapi.project.models.dto.request.ProjectAddMemberRequest;
 import com.group1.projectmanagementapi.project.models.dto.request.ProjectRequest;
@@ -99,7 +98,11 @@ public class ProjectController {
             throw new AccessDeniedException("You can't access this");
         }
 
+        List<String> statuses = this.projectService.getProjectStatus(id);
+        // List<StatusResponse> statusResponses = statuses.stream().map(stat -> stat.convertToResponse()).toList();
         ProjectResponse projectResponse = existingProject.convertToResponse();
+        projectResponse.setStatuses(statuses);
+
         return ResponseEntity.ok().body(projectResponse);
     }
 
@@ -143,9 +146,9 @@ public class ProjectController {
         Customer customer = null;
         if (projectRequest.getAddProjectMember() != null) {
             customer = this.customerService.findOneByUsername(projectRequest.getAddProjectMember());
-            if (customer == null) {
-                throw new ResourceNotFoundException("User not found!");
-            }
+            // if (customer == null) {
+            //     throw new ResourceNotFoundException("User not found!");
+            // }
         }
 
         Project project = Project.builder()

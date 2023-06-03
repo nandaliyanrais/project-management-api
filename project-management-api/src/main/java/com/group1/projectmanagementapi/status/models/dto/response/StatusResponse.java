@@ -13,6 +13,7 @@ import lombok.Setter;
 @Builder
 public class StatusResponse {
 
+    private Long id;
     private String status;
 
 }

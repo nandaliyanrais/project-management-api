@@ -1,6 +1,7 @@
 package com.group1.projectmanagementapi.status;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,7 @@ public class StatusService {
                 .orElseThrow(() -> new ResourceNotFoundException("Not found Status with id = " + id));
     }
 
-    public Status findOneByStatus(String status) {
+    public Optional<Status> findOneByStatus(String status) {
         return this.statusRepository.findByStatus(status);
     }
 

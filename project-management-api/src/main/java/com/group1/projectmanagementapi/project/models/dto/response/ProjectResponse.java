@@ -23,6 +23,7 @@ public class ProjectResponse {
     private String title;
     private List<TaskResponse> tasks;
     private List<CustomerCreateResponse> projectMembers;
+    private List<String> statuses;
     private Timestamp createdAt;
     private Timestamp updatedAt;
 }

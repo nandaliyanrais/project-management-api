@@ -46,6 +46,6 @@ public class Status {
     }
 
     public StatusResponse convertToResponse() {
-        return StatusResponse.builder().status(this.status).build();
+        return StatusResponse.builder().id(this.id).status(this.status).build();
     }
 }
