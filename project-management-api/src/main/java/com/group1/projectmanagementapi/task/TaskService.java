@@ -1,5 +1,6 @@
 package com.group1.projectmanagementapi.task;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -46,6 +47,10 @@ public class TaskService {
                 .status(status)
                 .build();
         return taskRepository.save(tasks);
+    }
+
+    public List<Task> getAllTasks() {
+        return this.taskRepository.findAll();
     }
 
     // public Task updateOne(Task task) {

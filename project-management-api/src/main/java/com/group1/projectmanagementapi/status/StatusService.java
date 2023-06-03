@@ -1,5 +1,7 @@
 package com.group1.projectmanagementapi.status;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.group1.projectmanagementapi.exception.ResourceNotFoundException;
@@ -24,6 +26,10 @@ public class StatusService {
 
     public Status createOne(Status status) {
         return this.statusRepository.save(status);
+    }
+
+    public List<Status> getAllStatuses() {
+        return this.statusRepository.findAll();
     }
 
 }

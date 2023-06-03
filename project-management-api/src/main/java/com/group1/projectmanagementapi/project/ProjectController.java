@@ -77,6 +77,15 @@ public class ProjectController {
         return ResponseEntity.status(HttpStatus.CREATED).body(projectResponse);
     }
 
+    @GetMapping("/getAllProjects")
+    public ResponseEntity<List<ProjectResponse>> getAllProjects() {
+        List<Project> projects = projectService.getAllProjects();
+        List<ProjectResponse> projectResponses = projects.stream().map(project -> project.convertToResponse()).toList();
+
+        return ResponseEntity.ok().body(projectResponses);
+    }        
+    
+
     @GetMapping("/projects/{projectId}")
     public ResponseEntity<ProjectResponse> getProjectById(@PathVariable("projectId") Long id,
             @RequestParam(name = "status", required = false) Optional<String> status,

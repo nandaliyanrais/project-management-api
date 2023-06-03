@@ -42,6 +42,10 @@ public class CustomerService {
         return this.customerRepository.save(customer);
     }
 
+    public List<Customer> getAllCustomers() {
+        return this.customerRepository.findAll();
+    }
+
     public Customer updateOne(Customer customer) {
         Customer existingCustomer = this.findOneById(customer.getId());
 

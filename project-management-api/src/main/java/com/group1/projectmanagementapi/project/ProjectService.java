@@ -28,6 +28,10 @@ public class ProjectService {
         return this.projectRepository.save(project);
     }
 
+    public List<Project> getAllProjects() {
+        return this.projectRepository.findAll();
+    }
+
     // public Project updateOne(Long id, Project project, Customer customer) {
     //     Project existingProject = this.findOneById(id);
 

@@ -1,6 +1,5 @@
 package com.group1.projectmanagementapi.status.models;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -49,5 +48,4 @@ public class Status {
     public StatusResponse convertToResponse() {
         return StatusResponse.builder().status(this.status).build();
     }
-
 }

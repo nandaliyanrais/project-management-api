@@ -62,7 +62,14 @@ public class TaskController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    @GetMapping("/getAllTasks")
+    public ResponseEntity<List<TaskResponse>> getAllTasks() {
+        List<Task> tasks = this.taskService.getAllTasks();
+        List<TaskResponse> taskResponses = tasks.stream().map(task -> task.convertToResponse()).toList();
 
+        return ResponseEntity.ok().body(taskResponses);
+    }
+        
     @GetMapping("/projects/{projectId}/tasks/{taskId}")
     public ResponseEntity<TaskResponse> getTaskById(
             @PathVariable("projectId") Long projectId,

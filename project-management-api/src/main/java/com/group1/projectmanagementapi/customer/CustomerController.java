@@ -71,6 +71,14 @@ public class CustomerController {
         return ResponseEntity.status(HttpStatus.OK).body(updatedCustomer.convertToUpdateResponse());
     }
 
+    @GetMapping("/getAllUsers")
+    public ResponseEntity<List<CustomerUpdateResponse>> getAllCustomers() {
+        List<Customer> customers = this.customerService.getAllCustomers();
+        List<CustomerUpdateResponse> response = customers.stream().map(customer -> customer.convertToUpdateResponse()).toList();
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
     @GetMapping("/users/{userId}")
     public ResponseEntity<CustomerResponse> getOne(@PathVariable("userId") Long id,
             @AuthenticationPrincipal UserPrincipal currentUser) {
