@@ -1,6 +1,5 @@
 package com.group1.projectmanagementapi.task;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -8,6 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.group1.projectmanagementapi.exception.ResourceNotFoundException;
 import com.group1.projectmanagementapi.project.models.Project;
+import com.group1.projectmanagementapi.status.StatusService;
+import com.group1.projectmanagementapi.status.models.Status;
 import com.group1.projectmanagementapi.task.models.Task;
 
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 public class TaskService {
 
     private final TaskRepository taskRepository;
-    // private final ProjectService projectService;
+    private final StatusService statusService;
 
     public Task findOneById(Long id) {
         return this.taskRepository.findById(id)
@@ -25,7 +26,24 @@ public class TaskService {
     }
 
     public Task createOne(Task task) {
-        return this.taskRepository.save(task);
+        Status newStatus = new Status(task.getStatus().getStatus().toUpperCase());
+        Status existingStatus = statusService.findOneByStatus(newStatus.getStatus());
+        Status status = null;
+
+        if (existingStatus != null) {
+            status = existingStatus;
+        } else {
+            statusService.createOne(newStatus);
+            status = newStatus;
+        }
+        Task tasks = Task.builder()
+                .id(task.getId())
+                .title(task.getTitle())
+                .description(task.getDescription())
+                .project(task.getProject())
+                .status(status)
+                .build();
+        return taskRepository.save(tasks);
     }
 
     public Task updateOne(Task task) {

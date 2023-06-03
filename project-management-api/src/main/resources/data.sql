@@ -1,1 +1,2 @@
 INSERT INTO public.application_user (id, email, "name", "password", username) VALUES('5e067596-8cc3-11ed-a1eb-0242ac120002', 'ariqkharisma@gmail.com', 'Ariq Kharisma Pratama', '$2y$12$UcKOVlxupU1mexPCSQZ4V.egaK2U0Pe.6TvzkrU1Xy0qi7LlOLKeC', 'ariqkharisma');
+INSERT INTO public.status (id,status) VALUES(100,'TO_DO'),(101,'IN_DEV'),(102,'DONE');

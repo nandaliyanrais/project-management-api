@@ -2,19 +2,16 @@ package com.group1.projectmanagementapi.task.models;
 
 import java.sql.Timestamp;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.group1.projectmanagementapi.project.models.Project;
+import com.group1.projectmanagementapi.status.models.Status;
 import com.group1.projectmanagementapi.task.models.dto.response.TaskListResponse;
 import com.group1.projectmanagementapi.task.models.dto.response.TaskResponse;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -48,8 +45,8 @@ public class Task {
 
     private String description;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "status_id")
     private Status status;
 
     @CreationTimestamp

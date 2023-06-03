@@ -54,8 +54,7 @@ public class ProjectController {
     }
 
     @GetMapping("/projects/{projectId}")
-    public ResponseEntity<ProjectResponse> getProjectById(@PathVariable("projectId") Long id,
-            @RequestParam(name = "status", required = false) Optional<String> status) {
+    public ResponseEntity<ProjectResponse> getProjectById(@PathVariable("projectId") Long id) {
         Project existingProject = this.projectService.findOneById(id);
         ProjectResponse projectResponse = existingProject.convertToResponse();
 
@@ -71,7 +70,7 @@ public class ProjectController {
         Project project = projectRequest.convertToEntity();
 
         Project updatedProject = this.projectService.updateOne(id, project, customer);
-        
+
         return ResponseEntity.ok().body(updatedProject.convertToResponse());
     }
 

@@ -31,6 +31,7 @@ public class CustomerRequest {
     @NotEmpty(message = "Email cannot be empty")
     @Email
     private String email;
+    
 
     public Customer convertToEntity() {
         Customer customer = Customer.builder()
