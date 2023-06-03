@@ -25,7 +25,8 @@ public class CustomerService {
     private final ProjectRepository projectRepository;
 
     public Customer findOneById(Long id) {
-        return this.customerRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Not found customer with id = " + id));
+        return this.customerRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Not found customer with id = " + id));
     }
 
     public Customer save(Customer customer) {
@@ -46,6 +47,7 @@ public class CustomerService {
         Optional.ofNullable(customer.getName()).ifPresent(existingCustomer::setName);
         Optional.ofNullable(customer.getUsername()).ifPresent(existingCustomer::setUsername);
         Optional.ofNullable(customer.getEmail()).ifPresent(existingCustomer::setEmail);
+        Optional.ofNullable(customer.getImage()).ifPresent(existingCustomer::setImage);
 
         ApplicationUser applicationUser = existingCustomer.getApplicationUser();
         if (applicationUser != null) {

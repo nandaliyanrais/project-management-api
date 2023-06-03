@@ -12,7 +12,6 @@ import com.group1.projectmanagementapi.applicationuser.ApplicationUser;
 import com.group1.projectmanagementapi.customer.models.dto.response.CustomerCreateResponse;
 import com.group1.projectmanagementapi.customer.models.dto.response.CustomerResponse;
 import com.group1.projectmanagementapi.customer.models.dto.response.CustomerUpdateResponse;
-import com.group1.projectmanagementapi.image.models.Image;
 import com.group1.projectmanagementapi.project.models.Project;
 import com.group1.projectmanagementapi.project.models.dto.response.ProjectListResponse;
 
@@ -57,23 +56,16 @@ public class Customer {
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private ApplicationUser applicationUser;
 
-    @OneToOne
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
-    private Image image;
+    private String image;
 
     // @OneToMany(mappedBy = "customer")
     // private List<Project> projects;
 
-    @ManyToMany(
-        fetch = FetchType.LAZY, 
-        cascade = {
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE
-        })
-    @JoinTable(
-      name = "customer_project", 
-      joinColumns = @JoinColumn(name = "customer_id"), 
-      inverseJoinColumns = @JoinColumn(name = "project_id"))
+    })
+    @JoinTable(name = "customer_project", joinColumns = @JoinColumn(name = "customer_id"), inverseJoinColumns = @JoinColumn(name = "project_id"))
     private List<Project> projects;
 
     @CreationTimestamp
@@ -116,6 +108,7 @@ public class Customer {
                 .name(this.name)
                 .username(this.username)
                 .email(this.email)
+                .image(this.image)
                 .updatedAt(this.updatedAt)
                 .build();
     }

@@ -1,7 +1,7 @@
 package com.group1.projectmanagementapi.task.models.dto.request;
 
+import com.group1.projectmanagementapi.status.models.Status;
 import com.group1.projectmanagementapi.task.models.Task;
-import com.group1.projectmanagementapi.task.models.Status;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
@@ -16,7 +16,7 @@ import lombok.Setter;
 public class TaskRequest {
 
     private Long id;
-    
+
     @NotEmpty(message = "Title is required")
     private String title;
 
@@ -29,7 +29,7 @@ public class TaskRequest {
                 .id(this.id)
                 .title(this.title)
                 .description(this.description)
-                .status(this.status)
+                .status(status)
                 .build();
     }
 

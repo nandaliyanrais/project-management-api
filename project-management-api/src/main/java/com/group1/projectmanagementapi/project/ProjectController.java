@@ -23,6 +23,7 @@ import com.group1.projectmanagementapi.project.models.Project;
 import com.group1.projectmanagementapi.project.models.dto.request.ProjectRequest;
 import com.group1.projectmanagementapi.project.models.dto.response.ProjectResponse;
 import com.group1.projectmanagementapi.task.TaskService;
+import com.group1.projectmanagementapi.task.models.Task;
 import com.group1.projectmanagementapi.task.models.dto.response.TaskResponse;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -61,7 +62,7 @@ public class ProjectController {
             @RequestParam(name = "status", required = false) Optional<String> status,
             @AuthenticationPrincipal UserPrincipal currentUser) {
         Project existingProject = this.projectService.findOneById(id);
-        
+
         Customer customerLogin = this.customerService.findOneByUsername(currentUser.getUsername());
         List<Customer> projectMembers = existingProject.getProjectMembers();
 
@@ -115,6 +116,7 @@ public class ProjectController {
 
     @GetMapping("/projects/{id}/tasks")
     public ResponseEntity<List<TaskResponse>> getAllTasks(@PathVariable("id") Long id,
+            @RequestParam(name = "status") Optional<String> status,
             @AuthenticationPrincipal UserPrincipal currentUser) {
         Project existingProject = this.projectService.findOneById(id);
 
@@ -125,9 +127,9 @@ public class ProjectController {
             throw new AccessDeniedException("You can't access this");
         }
 
-        List<TaskResponse> taskLists = existingProject.getTasks().stream().map(task -> task.convertToResponse())
-                .toList();
-        return ResponseEntity.ok().body(taskLists);
+        List<Task> tasks = this.projectService.getAllTasks(existingProject, status);
+        List<TaskResponse> taskResponses = tasks.stream().map(task -> task.convertToResponse()).toList();
+        return ResponseEntity.ok().body(taskResponses);
     }
 
 }

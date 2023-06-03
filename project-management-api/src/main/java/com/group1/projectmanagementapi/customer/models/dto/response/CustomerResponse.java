@@ -24,7 +24,7 @@ public class CustomerResponse {
     private String name;
     private String username;
     private String email;
-    private String imageUrl;
+    private String image;
     private List<ProjectListResponse> projects;
     private Timestamp createdAt;
     

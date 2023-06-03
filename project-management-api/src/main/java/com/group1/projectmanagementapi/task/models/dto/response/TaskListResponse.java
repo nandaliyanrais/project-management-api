@@ -1,6 +1,6 @@
 package com.group1.projectmanagementapi.task.models.dto.response;
 
-import com.group1.projectmanagementapi.task.models.Status;
+import com.group1.projectmanagementapi.status.models.Status;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

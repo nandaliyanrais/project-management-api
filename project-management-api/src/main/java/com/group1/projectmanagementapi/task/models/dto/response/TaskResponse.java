@@ -2,7 +2,7 @@ package com.group1.projectmanagementapi.task.models.dto.response;
 
 import java.sql.Timestamp;
 
-import com.group1.projectmanagementapi.task.models.Status;
+import com.group1.projectmanagementapi.status.models.Status;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,5 +23,5 @@ public class TaskResponse {
     private Status status;
     private Timestamp createdAt;
     private Timestamp updatedAt;
-    
+
 }
