@@ -28,7 +28,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
-@Tag(name = "Register user")
+@Tag(name = "Customer User")
 @RestController
 @RequiredArgsConstructor
 public class CustomerController {
@@ -70,13 +70,13 @@ public class CustomerController {
         return ResponseEntity.status(HttpStatus.OK).body(updatedCustomer.convertToUpdateResponse());
     }
 
-    @GetMapping("/getAllUsers")
-    public ResponseEntity<List<CustomerUpdateResponse>> getAllCustomers() {
-        List<Customer> customers = this.customerService.getAllCustomers();
-        List<CustomerUpdateResponse> response = customers.stream().map(customer -> customer.convertToUpdateResponse()).toList();
+    // @GetMapping("/getAllUsers")
+    // public ResponseEntity<List<CustomerUpdateResponse>> getAllCustomers() {
+    //     List<Customer> customers = this.customerService.getAllCustomers();
+    //     List<CustomerUpdateResponse> response = customers.stream().map(customer -> customer.convertToUpdateResponse()).toList();
 
-        return ResponseEntity.status(HttpStatus.OK).body(response);
-    }
+    //     return ResponseEntity.status(HttpStatus.OK).body(response);
+    // }
 
     @GetMapping("/users/{userId}")
     public ResponseEntity<CustomerResponse> getOne(@PathVariable("userId") Long id,

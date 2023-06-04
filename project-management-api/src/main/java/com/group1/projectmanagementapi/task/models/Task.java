@@ -37,7 +37,6 @@ public class Task {
 
     @ManyToOne
     @JoinColumn(name = "project_id")
-    // @Cascade(CascadeType.ALL)
     private Project project;
 
     @Column(nullable = false)

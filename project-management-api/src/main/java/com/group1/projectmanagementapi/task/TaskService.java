@@ -54,26 +54,6 @@ public class TaskService {
         return this.taskRepository.findAll();
     }
 
-    // public Task updateOne(Task task) {
-    // Task existingTask = this.findOneById(task.getId());
-
-    // Project existingProject = existingTask.getProject();
-
-    // Optional.ofNullable(task.getTitle()).ifPresent(existingTask::setTitle);
-    // Optional.ofNullable(task.getDescription()).ifPresent(existingTask::setDescription);
-    // Optional.ofNullable(task.getStatus()).ifPresent(existingTask::setStatus);
-    // //
-    // Optional.ofNullable(task.getProjects()).ifPresent(existingTask::setProjects);
-
-    // if (existingTask.getProject() == null) {
-    // existingTask.setProject(existingProject);
-    // }
-
-    // Task updatedTask = this.taskRepository.save(existingTask);
-
-    // return updatedTask;
-    // }
-
     public Task updateOne(Long id, Task task) {
         Task existingTask = this.findOneById(id);
 

@@ -71,19 +71,6 @@ public class CustomerService {
                 "Not found customer with username= " + username));
     }
 
-    // public void removeProjectFromCustomer(Long customerId, Long projectId) {
-    // Customer customer = customerRepository.findById(customerId)
-    // .orElseThrow(() -> new ResourceNotFoundException("Customer not found with id:
-    // " + customerId));
-
-    // Project project = projectRepository.findById(projectId)
-    // .orElseThrow(() -> new ResourceNotFoundException("Project not found with id:
-    // " + projectId));
-
-    // customer.getProjects().remove(project);
-    // customerRepository.save(customer);
-    // }
-
     @Transactional
     public void removeProjectFromCustomer(Long projectId) {
         Project project = projectRepository.findById(projectId)

@@ -58,9 +58,6 @@ public class Customer {
 
     private String imageUrl;
 
-    // @OneToMany(mappedBy = "customer")
-    // private List<Project> projects;
-
     @ManyToMany(fetch = FetchType.LAZY, cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE
@@ -111,10 +108,5 @@ public class Customer {
                 .updatedAt(this.updatedAt)
                 .build();
     }
-
-    // @ManyToMany
-    // @JoinTable(name = "customer_project", joinColumns = @JoinColumn(name =
-    // "customer_id"), inverseJoinColumns = @JoinColumn(name = "project_id"))
-    // private List<Project> projectLists;
 
 }

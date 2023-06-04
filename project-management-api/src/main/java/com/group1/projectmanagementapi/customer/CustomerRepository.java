@@ -16,6 +16,4 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
     void deleteByProjectsIn(List<Project> projects);
 
-    // Customer findByApplicationUser_Username(String username);
-
 }

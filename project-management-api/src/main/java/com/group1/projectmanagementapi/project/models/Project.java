@@ -45,15 +45,8 @@ public class Project {
         @Column(nullable = false)
         private String title;
 
-        // @ManyToOne
-        // @JoinColumn(name = "customer_id")
-        // @Cascade(CascadeType.ALL)
-        // @JsonIgnore
-        // private Customer customers;
-
         @OneToMany(mappedBy = "project")
         @Builder.Default
-        // @Cascade(CascadeType.ALL)
         private List<Task> tasks = new ArrayList<>();
 
         @CreationTimestamp
@@ -73,19 +66,9 @@ public class Project {
         private List<Customer> projectMembers = new ArrayList<>();
 
         public ProjectResponse convertToResponse() {
-                // List<TaskListResponse> taskLists = this.tasks.stream()
-                // .sorted(Comparator.comparing(Task::getUpdatedAt).reversed())
-                // .map(Task::convertToListResponse)
-                // .toList();
-
                 List<CustomerCreateResponse> customers = this.projectMembers.stream()
                                 .map(c -> c.convertToCreateResponse())
                                 .toList();
-
-                // List<TaskResponse> tasks = this.tasks.stream()
-                // .filter(task -> task.getStatus().equals("IN_DEV"))
-                // .map(Task::convertToResponse)
-                // .collect(Collectors.toList());
 
                 List<TaskResponse> tasks = this.tasks.stream().map(task -> task.convertToResponse()).toList();
 

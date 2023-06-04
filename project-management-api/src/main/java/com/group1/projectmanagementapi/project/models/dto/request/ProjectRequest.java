@@ -19,11 +19,8 @@ public class ProjectRequest {
     @NotEmpty(message = "Title is required")
     private String title;
 
-    // @NotEmpty(message = "projectMember is required")
     private String projectMember;
     
-    // private Customer customer;
-
     public Project convertToEntity() {
         return Project.builder()
                 .id(this.id)

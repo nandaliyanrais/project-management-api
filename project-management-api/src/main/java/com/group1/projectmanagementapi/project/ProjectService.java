@@ -33,22 +33,6 @@ public class ProjectService {
         return this.projectRepository.findAll();
     }
 
-    // public Project updateOne(Long id, Project project, Customer customer) {
-    // Project existingProject = this.findOneById(id);
-
-    // if (existingProject.getProjectMembers().contains(customer)) {
-    // throw new MissingServletRequestParameterException("User already in this
-    // project");
-    // }
-
-    // existingProject.setTitle(project.getTitle());
-
-    // customer.getProjects().add(existingProject);
-    // existingProject.getProjectMembers().add(customer);
-
-    // return this.projectRepository.save(existingProject);
-    // }
-
     public Project updateOne(Long id, Project project, Customer customer) {
         Project existingProject = this.findOneById(id);
 
@@ -71,7 +55,6 @@ public class ProjectService {
     public void deleteOne(Long id) {
         Project project = this.findOneById(id);
 
-        // Hapus referensi Project dari daftar projects pada Customer
         List<Customer> customer = project.getProjectMembers();
         if (customer != null) {
             customer.stream().map(cust -> cust.getProjects().remove(project));

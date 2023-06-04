@@ -23,7 +23,6 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-// @EqualsAndHashCode(callSuper = true)
 public class ApplicationUser {
     @Id
     @GeneratedValue(generator = "UUID")

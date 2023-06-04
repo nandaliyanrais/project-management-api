@@ -62,13 +62,13 @@ public class TaskController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping("/getAllTasks")
-    public ResponseEntity<List<TaskResponse>> getAllTasks() {
-        List<Task> tasks = this.taskService.getAllTasks();
-        List<TaskResponse> taskResponses = tasks.stream().map(task -> task.convertToResponse()).toList();
+    // @GetMapping("/getAllTasks")
+    // public ResponseEntity<List<TaskResponse>> getAllTasks() {
+    //     List<Task> tasks = this.taskService.getAllTasks();
+    //     List<TaskResponse> taskResponses = tasks.stream().map(task -> task.convertToResponse()).toList();
 
-        return ResponseEntity.ok().body(taskResponses);
-    }
+    //     return ResponseEntity.ok().body(taskResponses);
+    // }
         
     @GetMapping("/projects/{projectId}/tasks/{taskId}")
     public ResponseEntity<TaskResponse> getTaskById(
@@ -108,7 +108,6 @@ public class TaskController {
         }
 
         Task task = taskRequest.convertToEntity();
-        // task.setId(taskId);
         Task updatedTask = this.taskService.updateOne(taskId, task);
 
         return ResponseEntity.ok().body(updatedTask.convertToResponse());
